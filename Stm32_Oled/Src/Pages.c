@@ -6,7 +6,7 @@ uint8_t Disable_Alarm_Flag = 0;
 ButtonState_St 						ButtonState     = {0};
 PageState_St   						PageState		 		= {0};
 struct Page_IndVal_St			page[4]					= {0};
-
+struct SubPage_IndVal_St	Subpage[4]			= {0}; 
 
 /*
   * @brief Routes corresponding pages 	
@@ -126,9 +126,9 @@ void PageScreen_2(void)
 	}	
 	
 	/*Check the limits of parameters*/
-	CheckLimit(page , 2);
+	CheckLimitPages(page , 2);
 	/*Indicates which parameter are you changing*/
-	Indicate_Parameter(page,2);
+	Indicate_Parameter_Page(page,2);
 	ssd1306_UpdateScreen();	
 	
 	/**	Objects of Page Structure ara transferred to Alarm Struct	**/
@@ -185,8 +185,8 @@ void PageScreen_3(void)
 		ButtonState.PressedState = NotPressed;
 		page[3].ParameterIndex++;	
 	}	
-	CheckLimit(page,3);
-	Indicate_Parameter(page,3);
+	CheckLimitPages(page,3);
+	Indicate_Parameter_Page(page,3);
 	ssd1306_SetCursor(20,20);
 	ssd1306_WriteString("Clock Settings",Font_7x10,White);
 	ssd1306_SetCursor(20,32);
@@ -213,25 +213,85 @@ void PageScreen_3(void)
 	}		
 
 }
+/**	Time Settings Page	**/
 void SubPage_1(void)
 {
+	char TempBuf[19] = {0};
+	static uint8_t Enable_Time_Change = 0;
+	static uint8_t Disable_Time_Change = 0;
+	
 	if(PageState.Page_Changed == TRUE){
-		PageState.Page_Changed = FALSE;
-		ssd1306_Fill(Black);
-		ssd1306_UpdateScreen();
+			ssd1306_SetCursor(20,40);
+			ssd1306_WriteString("Change Time",Font_7x10,White);		
+			PageState.Page_Changed = FALSE;
+			ssd1306_Fill(Black);
+			ssd1306_UpdateScreen();
 	}
-		ssd1306_SetCursor(30,30);
-		ssd1306_WriteString("SUB1",Font_7x10,White);
-		ssd1306_UpdateScreen();	
-		if(ButtonState.PressedState == ShortPressed)
+	
+	ssd1306_SetCursor(25,0);
+	ssd1306_WriteString("Change Time",Font_7x10,White);		
+	
+	/**	in case of ShortPressed event , increase instant parameters value	**/
+	
+	if(ButtonState.PressedState == ShortPressed)
+	{
+		ButtonState.PressedState = NotPressed;
+		Subpage[1].ParameterValue[(Subpage[1].ParameterIndex)]++;
+	}
+	/**	in case of LongPressed event , skip next parameters **/
+	if(ButtonState.PressedState == LongPressed)
+	{
+		ButtonState.PressedState = NotPressed;
+		Subpage[1].ParameterIndex++;	
+	}	
+	Indicate_Parameter_SubPage(Subpage,1);
+	sprintf((char*)TempBuf,"%02d:%02d:%02d",stimestructureget.Hours, stimestructureget.Minutes, stimestructureget.Seconds);
+	ssd1306_SetCursor(20,20);
+	ssd1306_WriteString((char*)TempBuf,Font_11x18,White);			
+	ssd1306_SetCursor(20,48);
+	ssd1306_WriteString("Set  Disable",Font_7x10,White);
+	
+	ssd1306_UpdateScreen();	
+	
+	/**	Objects of Page Structure ara transferred to Alarm Struct	**/
+	stimestructureget.Hours 	  	= Subpage[1].ParameterValue[0];
+	stimestructureget.Minutes  		= Subpage[1].ParameterValue[1];
+	stimestructureget.Seconds	   	= Subpage[1].ParameterValue[2];
+	
+	Enable_Time_Change  					= Subpage[1].ParameterValue[3];
+	Disable_Time_Change 					= Subpage[1].ParameterValue[4];
+	
+	/**	shows the string of alarm **/
+	Proceed_Commands();
+	
+	/**	Cancel the alarm and turn back	**/
+		if(Enable_Time_Change)
 		{
+			HAL_RTC_SetTime(&hrtc, &stimestructureget, RTC_FORMAT_BIN);
 			PageState.Sub_Page_Route_Status = DISABLE;
-			PageState.Main_Page_Route_Status = ENABLE;			
+			PageState.Main_Page_Route_Status = ENABLE;            
 			PageState.MainPage_Number = 0;
 			PageState.SubPage_Number = 0;
-			PageState.Page_Changed = TRUE;	
+			PageState.Page_Changed = TRUE;    
+			Subpage[2].ParameterValue[3] = 0;
+			Subpage[2].ParameterIndex = 0;
+          
+		}
+		/**	Set the alarm up and turn back	**/
+		if(Disable_Time_Change)
+		{
+			PageState.Sub_Page_Route_Status = DISABLE;
+			PageState.Main_Page_Route_Status = ENABLE;            
+			PageState.MainPage_Number = 0;
+			PageState.SubPage_Number = 0;
+			PageState.Page_Changed = TRUE;    
+			Subpage[2].ParameterValue[4] = 0;
+			Subpage[2].ParameterIndex = 0;
+
 		}	
 }
+
+
 void SubPage_2(void)
 {
 	if(PageState.Page_Changed == TRUE){
@@ -287,7 +347,7 @@ void ShowAlarm(void)
 	*				
   * @retval None
   */
-void CheckLimit(struct Page_IndVal_St Page[] , uint16_t Page_Number)
+void CheckLimitPages(struct Page_IndVal_St Page[] , uint16_t Page_Number)
 {
 	switch( Page_Number )
 	{
@@ -308,20 +368,38 @@ void CheckLimit(struct Page_IndVal_St Page[] , uint16_t Page_Number)
 	}
 }
 
+
+
+void Indicate_Parameter_SubPage(struct SubPage_IndVal_St SubPage[] , uint16_t Page_Number)
+{
+	switch( Page_Number )
+	{
+		case 1:
+		{			
+			if(SubPage[1].ParameterIndex == 0)			{SSD1306_DrawLine(55,60,102,60,Black);			  SSD1306_DrawLine(20,38,39,38,White);}
+			else if(SubPage[1].ParameterIndex == 1)	{SSD1306_DrawLine(20,38,39,38,Black);					SSD1306_DrawLine(54,38,73,38,White);}
+			else if(SubPage[1].ParameterIndex == 2)	{SSD1306_DrawLine(54,38,73,38,Black);					SSD1306_DrawLine(87,38,105,38,White);}
+			else if(SubPage[1].ParameterIndex == 3)	{SSD1306_DrawLine(87,38,105,38,Black);				SSD1306_DrawLine(20,60,40,60,White);}
+			else if(SubPage[1].ParameterIndex == 4)	{SSD1306_DrawLine(20,60,40,60,Black);					SSD1306_DrawLine(55,60,102,60,White);}
+			break;
+		}
+	}
+}
+
+
 /*
-  * @brief Indicate_Parameter
+  * @brief Indicate_Parameter_Page
   * @note The maximum position of the corresponding page's parameters 
 						is shown
   * @retval None
   */
-void Indicate_Parameter(struct Page_IndVal_St Page[] , uint16_t Page_Number)
+void Indicate_Parameter_Page(struct Page_IndVal_St Page[] , uint16_t Page_Number)
 {
 	switch( Page_Number )
 	{
 		case 2:
-		{
-			
-			if(page[2].ParameterIndex == 0)			{SSD1306_DrawLine(55,60,102,60,Black);				SSD1306_DrawLine(35,40,54,40,White);}
+		{			
+			if(page[2].ParameterIndex == 0)				{SSD1306_DrawLine(55,60,102,60,Black);			SSD1306_DrawLine(35,40,54,40,White);}
 			else if(page[2].ParameterIndex == 1)	{SSD1306_DrawLine(35,40,54,40,Black);				SSD1306_DrawLine(68,40,87,40,White);}
 			else if(page[2].ParameterIndex == 2)	{SSD1306_DrawLine(68,40,87,40,Black);				SSD1306_DrawLine(20,60,40,60,White);}
 			else if(page[2].ParameterIndex == 3)	{SSD1306_DrawLine(20,60,40,60,Black);				SSD1306_DrawLine(55,60,102,60,White);}
@@ -381,7 +459,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				}
         if( usTick > 150 )
         {
-            ButtonState.PressedState = usTick > 500 ? LongPressed : ShortPressed;
+            ButtonState.PressedState = usTick > 400 ? LongPressed : ShortPressed;
             HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
         }
         usTick = 0;

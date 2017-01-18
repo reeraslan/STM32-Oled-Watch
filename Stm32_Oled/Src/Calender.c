@@ -1,7 +1,7 @@
 #include "calender.h"  
 
 char RTC_Day[7];
-char *Days[] = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+char *Days[]  = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
 char *Month[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
 RTC_AlarmTypeDef sAlarm;
