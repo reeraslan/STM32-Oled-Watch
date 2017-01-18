@@ -1,0 +1,430 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"rtc",
+				"RTC_Day"
+			],
+			[
+				"arg",
+				"arg_val"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Src/Pages.c",
+			"settings":
+			{
+				"buffer_size": 3220,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Src/Calender.c",
+			"settings":
+			{
+				"buffer_size": 2750,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/Rust/Cargo.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Rust/Cargo.sublime-build",
+					""
+				],
+				[
+					"Packages/Rust/Cargo.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/Rust/Cargo.sublime-build",
+					"Test"
+				],
+				[
+					"Packages/Rust/Cargo.sublime-build",
+					"Bench"
+				],
+				[
+					"Packages/Rust/Cargo.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Packages/Rust/Cargo.sublime-build",
+				"Run"
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 196.0,
+		"last_filter": "save",
+		"selected_items":
+		[
+			[
+				"save",
+				"File: Save All"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled",
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Drivers",
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Inc",
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Src"
+	],
+	"file_history":
+	[
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Inc/Pages.h",
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Src/Calender.c",
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Src/main.c",
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/.mxproject",
+		"/C/Users/frekans42hotmail.com/AppData/Roaming/Sublime Text 3/Packages/User/keil.sublime-build",
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/untitled.sublime-build",
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/sub.sublime-project",
+		"/C/Users/frekans42hotmail.com/Desktop/tm_stm32f4_ssd1306.h",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32 Nucleo/Nucleo Projects/5-UART_INT/UART_INT/Src/main.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/Ar-Ge Klasörü/KRNK Ar-Ge/V0201/Program Kodu/Includes/Fonksiyonlar.c",
+		"/C/Users/frekans42hotmail.com/Desktop/tm_stm32f4_ssd1306.c",
+		"/C/Users/frekans42hotmail.com/Desktop/ssd1306-stm32HAL-master/Inc/ssd1306.h",
+		"/C/Users/frekans42hotmail.com/Desktop/GitHubLog.txt",
+		"/G/KRNK SON MASAUSTU/Projeler/KRNK/ADK-V2/MTK-FW-V02/KrnkIncludes/Haberlesme.c",
+		"/C/Users/frekans42hotmail.com/Desktop/main.c",
+		"/C/Users/frekans42hotmail.com/Desktop/main (1).c",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32 Oled/Stm32_Oled/Inc/Calender.h",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32 Oled/Stm32_Oled/Src/main.c",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32 Oled/Stm32_Oled/Src/Calender.c",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32 Oled/Stm32_Oled/Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32 Oled/Stm32_Oled/MDK-ARM/Oled/Stm32_Oled/MDK-ARM/Stm32_Oled.uvprojx",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32 Oled/Stm32_Oled/Src/ssd1306.c",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32 Oled/Stm32_Oled/MDK-ARM/Oled/Stm32_Oled/Src/Calender.c",
+		"/C/Users/frekans42hotmail.com/Desktop/ssd1306-stm32HAL-master/Src/ssd1306.c",
+		"/C/Users/frekans42hotmail.com/AppData/Roaming/Slack/temp/Rar$DRa0.644/ws2812.c",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/RTC/RTC_Tamper/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/RTC/RTC_Alarm/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/RTC/RTC_LSI/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/RTC/RTC_TimeStamp/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples_LL/RTC/RTC_Calendar/readme.txt",
+		"/C/Users/frekans42hotmail.com/AppData/Roaming/Slack/temp/Rar$DIa0.326/sw_rtcc.c",
+		"/C/Users/frekans42hotmail.com/AppData/Roaming/Slack/temp/Rar$DRa0.601/tm_stm32f4_ssd1306.h",
+		"/C/Users/frekans42hotmail.com/AppData/Roaming/Slack/temp/Rar$DIa0.542/tm_stm32f4_ssd1306.c",
+		"/C/Users/frekans42hotmail.com/Desktop/ssd1306-stm32HAL-master/Src/main.c",
+		"/C/Users/frekans42hotmail.com/Desktop/ssd1306-stm32HAL-master/Inc/fonts.h",
+		"/C/Users/frekans42hotmail.com/Desktop/OLED/OLED_Prj/Src/main.c",
+		"/C/Users/frekans42hotmail.com/Desktop/ssd1306-stm32HAL-master/Inc/stm32f4xx_hal_conf.h",
+		"/C/Users/frekans42hotmail.com/Desktop/ssd1306-stm32HAL-master/Inc/mxconstants.h",
+		"/C/Users/frekans42hotmail.com/AppData/Roaming/Slack/temp/Rar$DRa0.601/tm_stm32f4_ssd1306.c",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/HAL/HAL_TimeBase_TIM/readme.txt",
+		"/C/Users/frekans42hotmail.com/AppData/Roaming/Slack/temp/Rar$DIa0.693/tm_stm32_ssd1306.c",
+		"/C/Users/frekans42hotmail.com/AppData/Roaming/Slack/temp/Rar$DIa0.543/tm_stm32_usart.c",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/I2C/I2C_TwoBoards_ComPolling/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/I2C/I2C_TwoBoards_ComIT/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/I2C/I2C_TwoBoards_AdvComIT/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/I2C/I2C_TwoBoards_RestartComIT/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/OPAMP/OPAMP_PGA/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/STM32Cube_FW_L4_V1.6.0/Projects/STM32L476RG-Nucleo/Examples/RCC/RCC_ClockConfig/readme.txt",
+		"/C/Users/frekans42hotmail.com/Desktop/Stm32 Oled/u8g_arm.c",
+		"/C/Users/frekans42hotmail.com/Desktop/Stm32 Oled/u8g_arm.h",
+		"/C/Users/frekans42hotmail.com/Desktop/Stm32 Oled/Source Codes/Stm32_Oled/Inc/u8g_arm.h",
+		"/C/Users/frekans42hotmail.com/Desktop/Stm32 Oled/Example/lpc1114/common/u8g_arm.h",
+		"/C/Users/frekans42hotmail.com/Desktop/Stm32 Oled/Example/src/u8g.h",
+		"/C/Users/frekans42hotmail.com/Desktop/Stm32 Oled/Example/lpc1114/common/u8g_arm.c",
+		"/C/Users/frekans42hotmail.com/Desktop/Stm32 Oled/lpc1114/common/u8g_arm.h",
+		"/C/Users/frekans42hotmail.com/Desktop/Stm32 Oled/lpc1226/common/u8g_arm.h",
+		"/C/Users/frekans42hotmail.com/Downloads/CS5465.c",
+		"/C/Program Files (x86)/PICC/Examples/EX_CUST.C",
+		"/C/Users/frekans42hotmail.com/Dropbox/Ar-Ge Klasörü/İnnomotive/AC Voltage Protection/Program Kodu/RV0201/Interrupts.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/Ar-Ge Klasörü/İnnomotive/AC Voltage Protection/Program Kodu/RV0201/main.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/Ar-Ge Klasörü/İnnomotive/AC Voltage Protection/Program Kodu/RV0201/Functions.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/Ar-Ge Klasörü/İnnomotive/AC Voltage Protection/Program Kodu/RV0201/__history/Functions.c.~198~",
+		"/C/Users/frekans42hotmail.com/Desktop/Accenture/ErenEraslan_Cevap.c",
+		"/C/Users/frekans42hotmail.com/STM32Cube/Repository/STM32Cube_FW_L4_V1.6.0/Drivers/BSP/STM32L4xx_Nucleo/stm32l4xx_nucleo.c",
+		"/G/KRNK SON MASAUSTU/Projeler/KRNK/ATK/ProgramKodu/ATK V0301 05.08.2015/Includes/Interrupts.c",
+		"/C/Users/frekans42hotmail.com/Desktop/RV0201/__history/main.c.~226~",
+		"/C/Users/frekans42hotmail.com/Desktop/RV0201/main.c",
+		"/C/Users/frekans42hotmail.com/Desktop/RV0201/__history/main.c.~228~",
+		"/C/Users/frekans42hotmail.com/Desktop/ADK AFT-BOOT/KrnkIncludes/Bootload.c",
+		"/C/Users/frekans42hotmail.com/Desktop/ADK AFT-BOOT/KrnkIncludes/Microcontroller.c",
+		"/C/Users/frekans42hotmail.com/Desktop/ADK AFT-BOOT/Main MTK-WNI-V02.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/V0201/Program Kodu/Includes/Fonksiyonlar.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/LTD-6001-HW02/LTD-6001-RV0202/Includes/TSM.h",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/LTD-6001-HW02/LTD-6001-RV0202/Includes/Globals.h",
+		"/C/Users/frekans42hotmail.com/Desktop/sil/main.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/LTD-6001-HW02/LTD-6001-RV0202/Includes/TSMDrive.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/LTD-6001-HW02/LTD-6001-RV0202/Includes/TSMControl.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/LTD-6001-HW02/LTD-6001-RV0202/Includes/TsmShortTest.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/LTD-6001-HW02/LTD-6001-RV0202/Includes/MicroController.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/LTD-6001-HW02/LTD-6001-RV0202/LTD-6001-RV0202.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/V0201/Program Kodu/ADK-Tester-Main.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/İnnomotive Projelerim/AC Voltage Protection/Program Kodu/Global.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/İnnomotive Projelerim/AC Voltage Protection/Program Kodu/Functions.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/İnnomotive Projelerim/AC Voltage Protection/Program Kodu/main.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/LTD-6001-HW02/LTD-6001-RV0202/Includes/VersionHistory.h",
+		"/G/KRNK SON MASAUSTU/Projeler/Eren Eraslan/ADK Tester/ADK TESTER Servo Model/Program Kodu/Fonksiyonlar.c",
+		"/G/KRNK SON MASAUSTU/Projeler/Eren Eraslan/LTD Simulator/Program Kodu/Fonksiyonlar.c",
+		"/C/Users/frekans42hotmail.com/Dropbox/krnk projelerim/LTD-6001-HW02/LTD-6001-RV0202/Includes/PIC18F14K22_registers.h"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"SubPage_Number",
+			"SSD1306_COLOR_t",
+			"SSD1306_WRITECOMMAND",
+			"SSD1306_OFF",
+			"SSD1306_ON",
+			"ssd1306_WriteCommand",
+			"RTC_GetCounter",
+			"Time_Display",
+			"Time_Show",
+			"RTC_ITConfig",
+			"RCC_FLAG_SFTRST",
+			"Time_Adjust",
+			"Time_Regulate",
+			"Time_Adjust",
+			"MX_RTC_Init",
+			"SSD1306_WRITEDATA",
+			"7e",
+			"e8",
+			"Temp0",
+			"data.value",
+			"setup_adc",
+			"ADC"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Src/Pages.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3220,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								386,
+								386
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Src/Calender.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2750,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1665,
+								1665
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 216.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 118.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/keil.sublime-build",
+	"project": "sub.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"calende",
+				"Stm32_Oled\\Inc\\Calender.h"
+			],
+			[
+				"ma",
+				"Src\\main.c"
+			],
+			[
+				"ssd",
+				"Src\\ssd1306.c"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 198.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
