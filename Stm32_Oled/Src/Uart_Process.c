@@ -57,7 +57,6 @@ void Proceed_Commands(void)
 				Update_Time();
 				ssd1306_UpdateScreen();
 			}
-
 		}
 }
 
@@ -92,7 +91,7 @@ void Update_Time(void)
 		}
 	}		
 	
-	/*************	TIME	*************/
+	/*************	TIME Parcelling	*************/
 	stimestructureget.Hours 	= (Rx_Buffer[13] - 48) * 10 + (Rx_Buffer[14] - 48);
 	stimestructureget.Minutes = (Rx_Buffer[16] - 48) * 10 + (Rx_Buffer[17] - 48);
 	stimestructureget.Seconds = (Rx_Buffer[19] - 48) * 10 + (Rx_Buffer[20] - 48);

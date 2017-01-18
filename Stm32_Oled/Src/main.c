@@ -120,7 +120,6 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 	StartRTC_Routine();
-  //Init_RTC();
 	
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_UART_Receive_IT(&huart3,(uint8_t*)Rx_data,1);   //activate the interrupt
