@@ -20,7 +20,10 @@ typedef struct {
 /*	Sayfanin durum structure yapisi	*/
 typedef struct {
 	uint8_t MainPage_Number;
+	uint8_t SubPage_Number;
 	uint8_t Page_Changed;
+	uint8_t Main_Page_Route_Status;
+	uint8_t Sub_Page_Route_Status;
 } PageState_St;
 
 
@@ -45,21 +48,30 @@ typedef enum {
 	DoubleTapped  = 0x03
 } ButtonPressedStatus;
 
+typedef enum {
+	Disable   = 0,
+	Enable    = 1
+} status;
+
+
 extern RTC_AlarmTypeDef sAlarm;
 /** On tanimlar	**/
 #define Start_From_Day_Index			2					//RX Buffer'in Day bilgisi iceren Indexi
 #define Start_From_Month_Index		6					//RX Buffer'in Month bilgisi iceren Indexi
-
+#define aaa page[3].ParameterValue[1] 
 
 /**	Fonksiyon tanimlanmas1	**/
-void Page_Process(void);
+void Main_Page_Process(void);
 void Check_Button_State(void);
-void Indicate_Parameter(uint32_t* IndexOfParameters);
+void Indicate_Parameter(struct Page_IndVal_St Page[] , uint16_t Page_Number);
 void ShowAlarm(void);
 void CheckLimit(struct Page_IndVal_St Page[] , uint16_t Page_Number);
-
+void ShowSubPage(void);
 void PageScreen_1(void);
 void PageScreen_2(void);
 void PageScreen_3(void);
-
+void SubPage_1(void);
+void SubPage_2(void);
+void SubPage_3(void);
+void Sub_Page_Process(void);
 #endif

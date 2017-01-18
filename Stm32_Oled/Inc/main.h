@@ -62,6 +62,7 @@ static void MX_I2C1_Init(void);
 void MX_RTC_Init(void);
 static void MX_USART3_UART_Init(void);
 
+
 extern char Rx_data[2];
 
 /* USER CODE END Private defines */

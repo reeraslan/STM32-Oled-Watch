@@ -93,7 +93,7 @@ static void MX_TIM2_Init(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
+extern PageState_St	PageState;
 
 /* USER CODE END 0 */
 
@@ -125,7 +125,7 @@ int main(void)
   HAL_UART_Receive_IT(&huart3,(uint8_t*)Rx_data,1);   //activate the interrupt
   ssd1306_Init();
   ssd1306_UpdateScreen();
-	
+	PageState.Main_Page_Route_Status = Enable;
 	/* USER CODE END 2 */
 
   /* Infinite loop */
@@ -135,7 +135,17 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-    Page_Process();
+		if(PageState.Main_Page_Route_Status == Enable)
+		{
+			PageState.Sub_Page_Route_Status = Disable;
+			Main_Page_Process();
+			
+		}
+		else if(PageState.Sub_Page_Route_Status == Enable)
+		{
+			PageState.Main_Page_Route_Status = Disable;
+			Sub_Page_Process();
+		}		
   }
   /* USER CODE END 3 */
 

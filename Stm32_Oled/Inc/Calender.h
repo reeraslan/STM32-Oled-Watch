@@ -23,7 +23,7 @@ extern RTC_DateTypeDef sdatestructureget;
 extern RTC_TimeTypeDef stimestructureget;
 extern uint32_t MyFlag;
 extern RTC_TimeTypeDef sTime;
-extern struct Page_IndVal_St			page[3];
+extern struct Page_IndVal_St			page[4];
 
 /*-----------------	DECLARE ---------------*/
 

@@ -5,14 +5,14 @@ uint8_t Disable_Alarm_Flag = 0;
 
 ButtonState_St 						ButtonState     = {0};
 PageState_St   						PageState		 		= {0};
-struct Page_IndVal_St			page[3]					= {0};
+struct Page_IndVal_St			page[4]					= {0};
 
 
 /*
   * @brief Routes corresponding pages 	
   * @retval None
   */
-void Page_Process(void)
+void Main_Page_Process(void)
 {
 	if(ButtonState.PressedState == DoubleTapped)
 	{
@@ -25,7 +25,7 @@ void Page_Process(void)
 		}
 	}
 
-	/** page transitions **/
+	/** page transitions  **/
 	switch(PageState.MainPage_Number)
 	{
 		case 0:
@@ -45,6 +45,32 @@ void Page_Process(void)
 		}
 		default:
 			PageScreen_1();
+	}
+}
+
+void Sub_Page_Process(void)
+{
+
+	/** page transitions  **/
+	switch(PageState.SubPage_Number)
+	{
+		case 1:
+		{
+			SubPage_1();
+			break;
+		}
+		case 2:
+		{
+			SubPage_2();
+			break;
+		}
+		case 3:
+		{
+			SubPage_3();
+			break;
+		}
+		default:
+			break;
 	}
 }
 
@@ -102,12 +128,12 @@ void PageScreen_2(void)
 	/*Check the limits of parameters*/
 	CheckLimit(page , 2);
 	/*Indicates which parameter are you changing*/
-	Indicate_Parameter(&(page[2].ParameterIndex));
+	Indicate_Parameter(page,2);
 	ssd1306_UpdateScreen();	
 	
 	/**	Objects of Page Structure ara transferred to Alarm Struct	**/
-	sAlarm.AlarmTime.Hours  	  = page[2].ParameterValue[0];
-	sAlarm.AlarmTime.Minutes  	= page[2].ParameterValue[1];
+	sAlarm.AlarmTime.Hours  	  	= page[2].ParameterValue[0];
+	sAlarm.AlarmTime.Minutes  		= page[2].ParameterValue[1];
 	sAlarm.AlarmTime.Seconds		= 0;	
 	
 	Enable_Alarm_Flag  					= page[2].ParameterValue[2];
@@ -147,12 +173,87 @@ void PageScreen_3(void)
 		ssd1306_Fill(Black);
 		ssd1306_UpdateScreen();
 	}
-
-	ssd1306_SetCursor(10,20);
-	ssd1306_WriteString("HELLO WLRD",Font_11x18,White);
+	if(ButtonState.PressedState == ShortPressed)
+	{
+		ButtonState.PressedState = NotPressed;
+		page[3].ParameterValue[(page[3].ParameterIndex)]++;
+		PageState.Page_Changed = TRUE;
+	}
+	/**	in case of LongPressed event , skip next parameters **/
+	if(ButtonState.PressedState == LongPressed)
+	{
+		ButtonState.PressedState = NotPressed;
+		page[3].ParameterIndex++;	
+	}	
+	CheckLimit(page,3);
+	Indicate_Parameter(page,3);
+	ssd1306_SetCursor(20,20);
+	ssd1306_WriteString("Clock Settings",Font_7x10,White);
+	ssd1306_SetCursor(20,32);
+	ssd1306_WriteString("Date Settings",Font_7x10,White);	
 	ssd1306_UpdateScreen();
-	Proceed_Commands();
+	Proceed_Commands();	
+	
+	//**	Set SubPage	**//
+	if(page[3].ParameterValue[0])	
+	{
+		page[3].ParameterValue[0] = 0;
+		PageState.Sub_Page_Route_Status = ENABLE;
+		PageState.Main_Page_Route_Status = DISABLE;
+		PageState.Page_Changed = TRUE;
+		PageState.SubPage_Number = 1;
+	}
+	else if (page[3].ParameterValue[1])
+	{
+		page[3].ParameterValue[1] = 0;
+		PageState.Sub_Page_Route_Status = ENABLE;
+		PageState.Main_Page_Route_Status = DISABLE;
+		PageState.Page_Changed = TRUE;
+		PageState.SubPage_Number = 2;
+	}		
+
 }
+void SubPage_1(void)
+{
+	if(PageState.Page_Changed == TRUE){
+		PageState.Page_Changed = FALSE;
+		ssd1306_Fill(Black);
+		ssd1306_UpdateScreen();
+	}
+		ssd1306_SetCursor(30,30);
+		ssd1306_WriteString("SUB1",Font_7x10,White);
+		ssd1306_UpdateScreen();	
+		if(ButtonState.PressedState == ShortPressed)
+		{
+			PageState.Sub_Page_Route_Status = DISABLE;
+			PageState.Main_Page_Route_Status = ENABLE;			
+			PageState.MainPage_Number = 0;
+			PageState.SubPage_Number = 0;
+			PageState.Page_Changed = TRUE;	
+		}	
+}
+void SubPage_2(void)
+{
+	if(PageState.Page_Changed == TRUE){
+		PageState.Page_Changed = FALSE;
+		ssd1306_Fill(Black);
+		ssd1306_UpdateScreen();
+	}
+		ssd1306_SetCursor(30,30);
+		ssd1306_WriteString("SUB2",Font_7x10,White);
+		ssd1306_UpdateScreen();	
+		if(ButtonState.PressedState == ShortPressed)
+		{
+			PageState.Sub_Page_Route_Status = DISABLE;
+			PageState.Main_Page_Route_Status = ENABLE;			
+			PageState.MainPage_Number = 0;
+			PageState.SubPage_Number = 0;
+			PageState.Page_Changed = TRUE;	
+		}	
+}
+void SubPage_3(void)
+{}
+	
 
 /*
   * @brief Shows the string of alarm 
@@ -201,7 +302,7 @@ void CheckLimit(struct Page_IndVal_St Page[] , uint16_t Page_Number)
 		/**	3rd page **/
 		case 3:
 		{
-			// will be added
+			if(page[3].ParameterIndex > 1) 					page[3].ParameterIndex = 0;				
 			break;
 		}		
 	}
@@ -213,27 +314,25 @@ void CheckLimit(struct Page_IndVal_St Page[] , uint16_t Page_Number)
 						is shown
   * @retval None
   */
-void Indicate_Parameter(uint32_t* IndexOfParameters)
+void Indicate_Parameter(struct Page_IndVal_St Page[] , uint16_t Page_Number)
 {
-	switch(*IndexOfParameters)
+	switch( Page_Number )
 	{
-		case 0:
-			SSD1306_DrawLine(55,60,102,60,Black);
-			SSD1306_DrawLine(35,40,54,40,White);
-			break;
-		case 1:
-			SSD1306_DrawLine(35,40,54,40,Black);
-			SSD1306_DrawLine(68,40,87,40,White);
-			break;
 		case 2:
-			SSD1306_DrawLine(68,40,87,40,Black);
-			SSD1306_DrawLine(20,60,40,60,White);
-
+		{
+			
+			if(page[2].ParameterIndex == 0)			{SSD1306_DrawLine(55,60,102,60,Black);				SSD1306_DrawLine(35,40,54,40,White);}
+			else if(page[2].ParameterIndex == 1)	{SSD1306_DrawLine(35,40,54,40,Black);				SSD1306_DrawLine(68,40,87,40,White);}
+			else if(page[2].ParameterIndex == 2)	{SSD1306_DrawLine(68,40,87,40,Black);				SSD1306_DrawLine(20,60,40,60,White);}
+			else if(page[2].ParameterIndex == 3)	{SSD1306_DrawLine(20,60,40,60,Black);				SSD1306_DrawLine(55,60,102,60,White);}
 			break;
+		}
 		case 3:
-			SSD1306_DrawLine(20,60,40,60,Black);
-			SSD1306_DrawLine(55,60,102,60,White);
-			break;		
+		{
+			if(page[3].ParameterIndex == 0)			{SSD1306_DrawLine(12,35,18,35,Black);				SSD1306_DrawLine(12,25,18,25,White);}
+			else if(page[3].ParameterIndex == 1)	{SSD1306_DrawLine(12,25,18,25,Black);			SSD1306_DrawLine(12,35,18,35,White);}
+			break;
+		}
 	}
 }
 

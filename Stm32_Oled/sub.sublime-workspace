@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"wh",
+				"White"
+			],
+			[
+				"chec",
+				"CheckLimit"
+			],
+			[
 				"rtc",
 				"RTC_Day"
 			],
@@ -16,24 +24,37 @@
 	"buffers":
 	[
 		{
-			"file": "Src/Pages.c",
+			"file": "Src/main.c",
 			"settings":
 			{
-				"buffer_size": 3220,
+				"buffer_size": 11249,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Src/Calender.c",
+			"contents": "#include \"Pages.h\"\n\nuint8_t Enable_Alarm_Flag = 0;\nuint8_t Disable_Alarm_Flag = 0;\n\nButtonState_St \t\t\t\t\t\tButtonState     = {0};\nPageState_St   \t\t\t\t\t\tPageState\t\t \t\t= {0};\nstruct Page_IndVal_St\t\t\tpage[4]\t\t\t\t\t= {0};\n\n\n/*\n  * @brief Routes corresponding pages \t\n  * @retval None\n  */\nvoid Page_Process(void)\n{\n\tif(ButtonState.PressedState == DoubleTapped)\n\t{\n\t\tButtonState.PressedState = NotPressed; \n\t\tPageState.MainPage_Number++;\n\t\tPageState.Page_Changed = TRUE;\n\t\tif(PageState.MainPage_Number > 2)\n\t\t{\n\t\t\tPageState.MainPage_Number = 0;\n\t\t}\n\t}\n\n\t/** page transitions  **/\n\tswitch(PageState.MainPage_Number)\n\t{\n\t\tcase 0:\n\t\t{\n\t\t\tPageScreen_1();\n\t\t\tbreak;\n\t\t}\n\t\tcase 1:\n\t\t{\n\t\t\tPageScreen_2();\n\t\t\tbreak;\n\t\t}\n\t\tcase 2:\n\t\t{\n\t\t\tPageScreen_3();\n\t\t\tbreak;\n\t\t}\n\t\tdefault:\n\t\t\tPageScreen_1();\n\t}\n}\n\n/*\n  * @brief Showing 1st page\n  * @note Shows the instant hour&calender data\n\t*\t\t\t\tAnd warns on screen when the alarm goes off\n  * @retval None\n  */\nvoid PageScreen_1(void)\n{\n\tuint8_t aShowTime[20] = {0};\n\tchar tempbuffer[20] = {0};\n\tif(PageState.Page_Changed == TRUE){\n\t\tPageState.Page_Changed = FALSE;\n\t\tssd1306_Fill(Black);\n\t\t\n\t\t/**\twhen alarm is set, shows the alarm time\t**/\n\t\tif(Enable_Alarm_Flag)\n\t\t{\n\t\t\tsprintf((char*)tempbuffer,\"%02d:%02d:%02d\",sAlarm.AlarmTime.Hours,sAlarm.AlarmTime.Minutes,sAlarm.AlarmTime.Seconds);\t\t\n\t\t\tssd1306_SetCursor(35,40);\n\t\t\tssd1306_WriteString((char*)tempbuffer,Font_7x10,White);\n\t\t\tssd1306_UpdateScreen();\t\n\t\t}\n\t}\n\t/**\tshow clock&calender data on screen\t**/\n\tRTC_TimeShow(aShowTime);\n\tRTC_DateShow(aShowTime);\n\tProceed_Commands();\n}\n\n/*\n  * @brief Showing 2nd page\n  * @note When user wants to set or disable the alarm,\n\t*\t\t\t\tthat needs to switch the 2nd page of clock by double tap\n  * @note This function sets the alarm parameters with data from the user \n  * @retval None\n  */\nvoid PageScreen_2(void)\n{\n\t/**\tin case of ShortPressed event , increase instant parameters value\t**/\n\tif(ButtonState.PressedState == ShortPressed)\n\t{\n\t\tButtonState.PressedState = NotPressed;\n\t\tpage[2].ParameterValue[(page[2].ParameterIndex)]++;\n\t}\n\t/**\tin case of LongPressed event , skip next parameters **/\n\tif(ButtonState.PressedState == LongPressed)\n\t{\n\t\tButtonState.PressedState = NotPressed;\n\t\tpage[2].ParameterIndex++;\t\n\t}\t\n\t\n\t/*Check the limits of parameters*/\n\tCheckLimit(page , 2);\n\t/*Indicates which parameter are you changing*/\n\tIndicate_Parameter(page,2);\n\tssd1306_UpdateScreen();\t\n\t\n\t/**\tObjects of Page Structure ara transferred to Alarm Struct\t**/\n\tsAlarm.AlarmTime.Hours  \t  \t= page[2].ParameterValue[0];\n\tsAlarm.AlarmTime.Minutes  \t\t= page[2].ParameterValue[1];\n\tsAlarm.AlarmTime.Seconds\t\t= 0;\t\n\t\n\tEnable_Alarm_Flag  \t\t\t\t\t= page[2].ParameterValue[2];\n\tDisable_Alarm_Flag \t\t\t\t\t= page[2].ParameterValue[3];\n\t\n\t/**\tshows the string of alarm **/\n\tShowAlarm();\n\tProceed_Commands();\n\t\n\t/**\tCancel the alarm and turn back\t**/\n\t\tif(Disable_Alarm_Flag)\n\t\t{\n\t\t\tpage[2].ParameterValue[3] = 0;\n\t\t\tpage[2].ParameterIndex = 0;\n\t\t\tPageState.MainPage_Number = 0;\n\t\t\tPageState.Page_Changed = TRUE;\t\t\n\t\t}\n\t\t/**\tSet the alarm up and turn back\t**/\n\t\tif(Enable_Alarm_Flag)\n\t\t{\n\t\t\tSet_Alarm();\n\t\t\tssd1306_Fill(Black);\n\t\t\tssd1306_UpdateScreen();\n\t\t\tpage[2].ParameterValue[2] = 0;\n\t\t\tpage[2].ParameterIndex = 0;\n\t\t\tPageState.MainPage_Number = 0;\n\t\t\tPageState.Page_Changed = TRUE;\t\t\n\t\t}\t\t\t\n}\n\n\n/**\tUseless Now **/\nvoid PageScreen_3(void)\n{\n\tif(PageState.Page_Changed == TRUE){\n\t\tPageState.Page_Changed = FALSE;\n\t\tssd1306_Fill(Black);\n\t\tssd1306_UpdateScreen();\n\t}\n\tif(ButtonState.PressedState == ShortPressed)\n\t{\n\t\tButtonState.PressedState = NotPressed;\n\t\tpage[3].ParameterValue[(page[3].ParameterIndex)]++;\n\t}\n\t/**\tin case of LongPressed event , skip next parameters **/\n\tif(ButtonState.PressedState == LongPressed)\n\t{\n\t\tButtonState.PressedState = NotPressed;\n\t\tpage[3].ParameterIndex++;\t\n\t}\t\n\tCheckLimit(page,3);\n\tIndicate_Parameter(page,2);\n\tssd1306_SetCursor(20,10);\n\tssd1306_WriteString(\"Clock Settings\",Font_11x18,White);\n\tssd1306_SetCursor(20,20);\n\tssd1306_WriteString(\"Date Settings\",Font_11x18,White);\t\n\tssd1306_UpdateScreen();\n\tProceed_Commands();\t\n\t\n\t//**\tSet SubPage\t**//\n\tif(page[3].ParameterValue[0])\t\t\t\t\t\t{PageState.SubPage_Number = 1;\tShowSubPage(2,PageState.SubPage_Number);}\n\telse if (page[3].ParameterValue[1])\t\t\t\t\t{PageState.SubPage_Number = 2;\tShowSubPage(2,PageState.SubPage_Number);}\n}\n\n\nvoid ShowSubPage(uint8_t Page,uint8_t SubPage)\n{\n\tswitch(SubPage)\n\t{\n\t\tcase 1:\n\t\t{\n\t\t\tuint8_t ShowAlarm_String[20] = {0};\n\t\t\t\n\t\t\tif(PageState.Page_Changed == TRUE){\n\t\t\t\tPageState.Page_Changed = FALSE;\n\t\t\t\tssd1306_Fill(Black);\n\t\t\t}\n\t\t\tssd1306_SetCursor(30,02);\n\t\t\tssd1306_WriteString(\"Set Clock\",Font_7x10,White);\n\t\t\t\n\t\t\tsprintf((char*)ShowAlarm_String,\"%02d:%02d\",sAlarm.AlarmTime.Hours,sAlarm.AlarmTime.Minutes);\t\t\n\t\t\tssd1306_SetCursor(35,20);\n\t\t\tssd1306_WriteString((char*)ShowAlarm_String,Font_11x18,White);\t\n\t\t\t\n\t\t\tssd1306_SetCursor(20,48);\n\t\t\tssd1306_WriteString(\"Set  Disable\",Font_7x10,White);\n\t\t\tssd1306_UpdateScreen();\n\t\t\tbreak;\n\t\t}\n\t\tcase 2:\n\t\t{\n\n\t\t\tbreak;\n\t\t}\t\t\n\t}\n}\n\n\n/*\n  * @brief Shows the string of alarm \n  * @retval None\n  */\nvoid ShowAlarm(void)\n{\n\tuint8_t ShowAlarm_String[20] = {0};\n\t\n\tif(PageState.Page_Changed == TRUE){\n\t\tPageState.Page_Changed = FALSE;\n\t\tssd1306_Fill(Black);\n\t}\n\tssd1306_SetCursor(30,02);\n\tssd1306_WriteString(\"Set Alarm\",Font_7x10,White);\n\t\n\tsprintf((char*)ShowAlarm_String,\"%02d:%02d\",sAlarm.AlarmTime.Hours,sAlarm.AlarmTime.Minutes);\t\t\n\tssd1306_SetCursor(35,20);\n\tssd1306_WriteString((char*)ShowAlarm_String,Font_11x18,White);\t\n\t\n\tssd1306_SetCursor(20,48);\n\tssd1306_WriteString(\"Set  Disable\",Font_7x10,White);\n\tssd1306_UpdateScreen();\n}\n\n\n/*\n  * @brief Limit Checker\n  * @note The maximum value of the corresponding page's parameters \n\t\t\t\t\t\tis checked and corrected by this function\n\t*\t\t\t\t\n  * @retval None\n  */\nvoid CheckLimit(struct Page_IndVal_St Page[] , uint16_t Page_Number)\n{\n\tswitch( Page_Number )\n\t{\n\t\t/**\tLimit values of 2nd Page\t**/\n\t\tcase 2:\n\t\t{\n\t\t\tif(page[2].ParameterIndex > 3) \t\t\t\t\t\tpage[2].ParameterIndex = 0;\n\t\t\tif(page[2].ParameterValue[0] > 23)\t\t\t\tpage[2].ParameterValue[0] = 0;\n\t\t\tif(page[2].ParameterValue[1] > 59)\t\t\t\tpage[2].ParameterValue[1] = 0;\t\t\t\t\n\t\t\tbreak;\n\t\t}\n\t\t/**\t3rd page **/\n\t\tcase 3:\n\t\t{\n\t\t\tif(page[3].ParameterIndex > 2) \t\t\t\t\tpage[2].ParameterIndex = 1;\t\t\t\t\n\t\t\tbreak;\n\t\t}\t\t\n\t}\n}\n\n/*\n  * @brief Indicate_Parameter\n  * @note The maximum position of the corresponding page's parameters \n\t\t\t\t\t\tis shown\n  * @retval None\n  */\nvoid Indicate_Parameter(struct Page_IndVal_St Page[] , uint16_t Page_Number)\n{\n\tswitch( Page_Number )\n\t{\n\t\tcase 2:\n\t\t{\n\t\t\t\n\t\t\tif(page[2].ParameterIndex == 0)\t\t\t{SSD1306_DrawLine(55,60,102,60,Black);\t\t\t\tSSD1306_DrawLine(35,40,54,40,White);}\n\t\t\telse if(page[2].ParameterIndex == 1)\t{SSD1306_DrawLine(35,40,54,40,Black);\t\t\t\tSSD1306_DrawLine(68,40,87,40,White);}\n\t\t\telse if(page[2].ParameterIndex == 2)\t{SSD1306_DrawLine(68,40,87,40,Black);\t\t\t\tSSD1306_DrawLine(20,60,40,60,White);}\n\t\t\telse if(page[2].ParameterIndex == 3)\t{SSD1306_DrawLine(20,60,40,60,Black);\t\t\t\tSSD1306_DrawLine(55,60,102,60,White);}\n\t\t\tbreak;\n\t\t}\n\t\tcase 3:\n\t\t{\n\t\t\tif(page[3].ParameterIndex == 0)\t\t\t{SSD1306_DrawLine(12,8,18,8,Black);\t\t\t\tSSD1306_DrawLine(12,18,18,18,White);}\n\t\t\telse if(page[3].ParameterIndex == 1)\t{SSD1306_DrawLine(12,18,18,18,Black);\t\t\tSSD1306_DrawLine(12,8,18,8,White);}\n\t\t\tbreak;\n\t\t}\n\t}\n}\n\n\n/*\n  * @brief Timer Interrupt Routine\n  * @note  The button state is determined by counting pushing and\n\t*\t\t\t\t releasing timings\n\t*\t\n\t*\t@note  3 states can be occurred \n\t\t\t\t\t\t- DoubleTap\n\t\t\t\t\t\t- Short Press\n\t\t\t\t\t\t- Long Press\n  * @retval None\n  */\n\nvoid HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)\n{\n\tstatic uint32_t usTick;\n\tstatic uint32_t HighCounter;\n\tstatic uint32_t LowCounter;\n\tstatic uint32_t DT_Start;\n\t\n    // Button pressed\n    if(!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13))\n    {\n        usTick++;\n\t\t\t\tHighCounter++;\n\t\t\t\tDT_Start = 1;\n\t\t\t\tif(HighCounter > 50 && LowCounter > 50){\n\t\t\t\t\tButtonState.PressedState = DoubleTapped;\n\t\t\t\t\tHighCounter = 0;\n\t\t\t\t\tLowCounter = 0;\n\t\t\t\t}\n    }\n    else\n    {\n        // Not pressed\n\t\t\t\tif (DT_Start == 1)\n\t\t\t\t\tLowCounter++;\n\t\t\t\tif(LowCounter > 100)\n\t\t\t\t{\n\t\t\t\t\tHighCounter = 0;\n\t\t\t\t\tDT_Start = 0;\n\t\t\t\t\tLowCounter = 0;\n\t\t\t\t}\n        if( usTick > 150 )\n        {\n            ButtonState.PressedState = usTick > 500 ? LongPressed : ShortPressed;\n            HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);\n        }\n        usTick = 0;\n    }\n}\n",
+			"file": "Src/Pages.c",
+			"file_size": 7985,
+			"file_write_time": 131292242229877481,
 			"settings":
 			{
-				"buffer_size": 2750,
-				"encoding": "UTF-8",
+				"buffer_size": 8370,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\n/* Define to prevent recursive inclusion -------------------------------------*/\n#ifndef Pages\n#define Pages\n\n#include \"stm32l4xx_hal.h\"\n#include \"main.h\"\n#include \"Uart_Process.h\"\n#include \"Calender.h\"\n\n#define FALSE 0\n\n#define\tPageParameter(x) \tPage[x].ParameterIndex\n\n/*\tButonun durum yapisi\t*/\ntypedef struct {\n\tuint8_t PressedState;\n} ButtonState_St;\n\n/*\tSayfanin durum structure yapisi\t*/\ntypedef struct {\n\tuint8_t MainPage_Number;\n\tuint8_t SubPage_Number;\n\tuint8_t Page_Changed;\n} PageState_St;\n\n\n/*\tSayfalarin Parametre Degeri & Parametre Index yapisi*/\nstruct Page_IndVal_St{\n\tuint32_t ParameterIndex;\n\tuint32_t ParameterValue[25];\n};\n\n/* Alarm Parametre tanimi\t*/\ntypedef struct {\n\tuint8_t Hour;\n\tuint8_t Minute;\n\tuint8_t Enable;\n\tuint8_t Disable;\n} Alarm_St;\n\ntypedef enum {\n\tNotPressed    = 0x00,\n\tLongPressed   = 0x01,\n\tShortPressed  = 0x02,\n\tDoubleTapped  = 0x03\n} ButtonPressedStatus;\n\nextern RTC_AlarmTypeDef sAlarm;\n/** On tanimlar\t**/\n#define Start_From_Day_Index\t\t\t2\t\t\t\t\t//RX Buffer'in Day bilgisi iceren Indexi\n#define Start_From_Month_Index\t\t6\t\t\t\t\t//RX Buffer'in Month bilgisi iceren Indexi\n\n\n/**\tFonksiyon tanimlanmas1\t**/\nvoid Page_Process(void);\nvoid Check_Button_State(void);\nvoid Indicate_Parameter(struct Page_IndVal_St Page[] , uint16_t Page_Number);\nvoid ShowAlarm(void);\nvoid CheckLimit(struct Page_IndVal_St Page[] , uint16_t Page_Number);\nvoid ShowSubPage(uint8_t Page,uint8_t SubPage);\n\nvoid PageScreen_1(void);\nvoid PageScreen_2(void);\nvoid PageScreen_3(void);\n\n#endif\n",
+			"file": "Inc/Pages.h",
+			"file_size": 1522,
+			"file_write_time": 131292213863783834,
+			"settings":
+			{
+				"buffer_size": 1504,
 				"line_ending": "Windows"
 			}
 		}
 	],
-	"build_system": "Packages/Rust/Cargo.sublime-build",
+	"build_system": "",
 	"build_system_choices":
 	[
 		[
@@ -113,19 +134,15 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled",
-		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Drivers",
-		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Inc",
-		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Src"
+		"/C/Users/frekans42hotmail.com/Desktop/PRJCTS/Stm32_Oled",
+		"/C/Users/frekans42hotmail.com/Desktop/PRJCTS/Stm32_Oled/Src"
 	],
 	"file_history":
 	[
-		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Inc/Pages.h",
-		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Src/Calender.c",
-		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Src/main.c",
 		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/.mxproject",
 		"/C/Users/frekans42hotmail.com/AppData/Roaming/Sublime Text 3/Packages/User/keil.sublime-build",
 		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/untitled.sublime-build",
+		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/Src/Calender.c",
 		"/C/Users/frekans42hotmail.com/Desktop/Embedded_Projects/Stm32_Oled/sub.sublime-project",
 		"/C/Users/frekans42hotmail.com/Desktop/tm_stm32f4_ssd1306.h",
 		"/C/Users/frekans42hotmail.com/Desktop/STM32 Nucleo/Nucleo Projects/5-UART_INT/UART_INT/Src/main.c",
@@ -212,7 +229,7 @@
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -270,48 +287,49 @@
 			[
 				{
 					"buffer": 0,
-					"file": "Src/Pages.c",
+					"file": "Src/main.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3220,
+						"buffer_size": 11249,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								386,
-								386
+								4359,
+								4359
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1944.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "Src/Calender.c",
+					"file": "Src/Pages.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2750,
+						"buffer_size": 8370,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1665,
-								1665
+								4377,
+								4377
 							]
 						],
 						"settings":
@@ -320,10 +338,39 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 216.0,
+						"translation.y": 2794.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Inc/Pages.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1504,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1285,
+								1285
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 562.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
